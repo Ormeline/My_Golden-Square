@@ -4,4 +4,4 @@ source "https://rubygems.org"
 
 # gem "rails"
 
-gem "rspec", "~> 3.11"
+gem 'rspec-core', '~> 3.12', '>= 3.12.1'
