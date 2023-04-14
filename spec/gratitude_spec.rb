@@ -1,27 +1,26 @@
-require 'test/unit'
+require 'gratitudes'
 
-class TestGratitudes < Test::Unit::TestCase
-  def setup
-    @gratitudes = Gratitudes.new
+RSpec.describe Gratitudes do
+  it "adds a gratitude to the list " do
+    gratitude = Gratitudes.new
+    gratitude.add("healthy family")
+    expect(gratitude.instance_variable_get(:@gratitudes)).to eq (["healthy family"])
   end
 
-  def test_add
-    @gratitudes.add("family")
-    assert_equal(["family"], @gratitudes.instance_variable_get(:@gratitudes))
-
-    @gratitudes.add("friends")
-    assert_equal(["family", "friends"], @gratitudes.instance_variable_get(:@gratitudes))
+  it "looks at where there are no gratitudes and returns a message" do
+    gratitude = Gratitudes.new
+    expect(gratitude.format).to eq("Be grateful for: ")
   end
-
-  def test_format
-    assert_equal("Be grateful for: ", @gratitudes.format)
-
-    @gratitudes.add("family")
-    assert_equal("Be grateful for: family", @gratitudes.format)
-
-    @gratitudes.add("friends")
   
-    @gratitudes.add("health")
-    assert_equal("Be grateful for: family, friends, health", @gratitudes.format)
+  context "where there are more gratidudes" do
+    let(:gratitude) { Gratitudes.new }
+    before do
+      gratitude.add("opportunities")
+      gratitude.add("good friends")
+    end
+
+    it "returns a message with all the gratitudes" do
+      expect(gratitude.format).to eq("Be grateful for: opportunities, good friends")
+    end 
   end
-end
+end 
